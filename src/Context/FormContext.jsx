@@ -4,6 +4,12 @@ const reducer = (state, action) => {
     switch (action.type) {
         case "CreateNote":
             return [...state, action.payload];
+        
+        case "PinNote":
+            return state.map(item => item.id === action.payload.id ? {...item, pin: !item.pin} : item);
+
+        case "DeleteNote":
+            return state.filter(item => item.id !== action.payload.id);
         default:
             return state;
     }
