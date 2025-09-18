@@ -1,12 +1,15 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { FaRegNoteSticky } from 'react-icons/fa6';
+import UseFormData from '../Hooks/UseFormData';
 
 export default function Form({ setIsForm }) {
     const [form, setForm] = useState({
         title: "",
         description: "",
+        id: Date.now(),
+        pin: false,
     });
-
+    const { dispatch } = UseFormData();
     const titleRef = useRef(null);
     const desRef = useRef(null);
 
@@ -25,10 +28,11 @@ export default function Form({ setIsForm }) {
     }
     function handleFormSumbit(e) {
         e.preventDefault();
-        setForm({ title: "", description: "" });
+        dispatch({ type: "CreateNote", payload: form })
         setIsForm(false);
-        console.log(form)
+        setForm({ title: "", description: "" });
     }
+
     return (
         <div
             className="fixed inset-0 bg-black/30 z-50 bg-opacity-50 flex items-center justify-center">
@@ -77,7 +81,7 @@ export default function Form({ setIsForm }) {
                         <textarea
                             ref={desRef}
                             id="des"
-                            required    
+                            required
                             value={form.description}
                             onChange={(e) => handleDes(e)}
                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 h-32"

@@ -1,11 +1,12 @@
 import React from 'react'
 import Header from './Components/Header'
-import Form from './Components/Form'
+import Note from './Components/Note'
 
 export default function App() {
   return (
-    <div className='grid h-screen'>
+    <div>
       <Header />
+      <Note />
     </div>
   )
 }
