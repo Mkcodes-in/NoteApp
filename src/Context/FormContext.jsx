@@ -1,4 +1,9 @@
-import React, { createContext, useReducer } from 'react'
+import React, { createContext, useEffect, useReducer } from 'react'
+
+const getInitialise = () => {
+    const data = localStorage.getItem("notes");
+    return data ? JSON.parse(data) : [];
+}
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -22,8 +27,12 @@ const reducer = (state, action) => {
 export const FormContext = createContext();
 
 export default function FormProvider({ children }) {
-    const [state, dispatch] = useReducer(reducer, []);
-    console.log(state)
+    const [state, dispatch] = useReducer(reducer, [], getInitialise);
+
+    useEffect(() => {
+        localStorage.setItem("notes", JSON.stringify(state));
+    }, [state]);
+    
     return (
         <FormContext.Provider value={{ state, dispatch }}>
             {children}
